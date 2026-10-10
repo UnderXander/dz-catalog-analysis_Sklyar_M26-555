@@ -50,3 +50,27 @@ def duration_in_hours(minutes):
     return f'{hours}ч {mins}м'
 
 
+def rating_tier(rating: float) -> str:
+    if rating >= 9:
+        verdict = 'шедевр'
+    elif 9 > rating >= 5:
+        verdict = 'хорошо' if rating > 7 else 'средне'
+    else:
+        verdict = 'слабо'
+    verdict = 'Рейтинг должен быть числом от 0 до 10' if rating > 10 or rating < 0 else verdict
+    return verdict
+
+
+def decade_label(year):
+    match year:
+        case _ if year > 2026:
+            return 'Ошибка! Фильм ещё не вышел в прокат!'
+        case _ if 2020 <= year <= 2026:
+            return 'новые'
+        case _ if 2015 <= year < 2020:
+            return 'недавние'
+        case _:
+            return 'старые'
+
+
+
