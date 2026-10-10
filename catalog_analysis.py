@@ -23,19 +23,18 @@ movies = [
 ]
 
 
-def average_rating(m: list) -> float:
-    rating = []
-    avg_rating = 0
-    for a in m:
-        rating.append(a["rating"])
-    avg_rating = sum(rating)/len(rating)
-    return round(avg_rating, 1)
+def average_rating(movies: list) -> float:
+    rating = []                            # empty list of movie ratings
+    for movie in movies:
+        rating.append(movie["rating"])     # filling list with ratings
+    avg_rating = sum(rating)/len(rating)   # count average rating
+    return round(avg_rating, 1)            # return rounded to 1 digit
 
 
-def catalog_age_stats(movies, current_year=2026):
-    oldest = current_year - movies[0]["year"]
-    newest = current_year - movies[0]["year"]
-    age = []
+def catalog_age_stats(movies: list, current_year=2026) -> tuple:
+    oldest = current_year - movies[0]["year"]                    # sets first movie as oldest
+    newest = current_year - movies[0]["year"]                    # sets first movie as newest
+    age = []                                                     # empty list for count avg
     for m in movies:
         oldest = current_year - m["year"] if oldest < current_year - m["year"] else oldest
         newest = current_year - m["year"] if newest > current_year - m["year"] else newest
@@ -44,7 +43,7 @@ def catalog_age_stats(movies, current_year=2026):
     return (oldest, newest, avg_age)
 
 
-def duration_in_hours(minutes):
+def duration_in_hours(minutes: int) -> str:
     hours = minutes // 60
     mins = minutes % 60
     return f'{hours}ч {mins}м'
@@ -65,6 +64,8 @@ def decade_label(year):
     match year:
         case _ if year > 2026:
             return 'Ошибка! Фильм ещё не вышел в прокат!'
+        case _ if year < 1888:
+            return 'Ошибка! Первый фильм был снят в 1888 году!' # Roundhay Garden Scene
         case _ if 2020 <= year <= 2026:
             return 'новые'
         case _ if 2015 <= year < 2020:
@@ -72,5 +73,30 @@ def decade_label(year):
         case _:
             return 'старые'
 
+
+for movie in movies:                     # entering each movie as dict one by one
+    if 'comedy' not in movie['genres']:  # checking if 'comedy' is in genres
+        print(movie['title'])            # print movie name if its genre not 'comedy'
+    else:
+        continue
+
+
+mc = 0
+while mc < len(movies):
+    if movies[mc]['rating'] < 9:
+        mc +=1
+    else:
+        print(f'{movies[mc]['title']} - ШЕДЕВР!')
+        break                     # if rating > 9 is found, cycle breaks
+else:
+    print('Шедевров не найдено')  # if no rating is > 9
+
+
+def count_long_movies(movies: list, threshold=120) -> int:
+    mc = 0                        # movie count
+    for movie in movies:
+        if movie['duration_min'] > threshold:
+            mc += 1
+    return mc
 
 
