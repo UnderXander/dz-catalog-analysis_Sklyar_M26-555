@@ -56,7 +56,8 @@ def rating_tier(rating: float) -> str:
         verdict = 'хорошо' if rating > 7 else 'средне'
     else:
         verdict = 'слабо'
-    verdict = 'Рейтинг должен быть числом от 0 до 10' if rating > 10 or rating < 0 else verdict
+    verdict = ('Рейтинг должен быть числом от 0 до 10'
+               if rating > 10 or rating < 0 else verdict)
     return verdict
 
 
@@ -100,3 +101,20 @@ def count_long_movies(movies: list, threshold=120) -> int:
     return mc
 
 
+def normalize_title(title: 'str') -> str:
+    title_norm = ''
+    splited = title.split(sep = ' ')
+    for word in splited:
+        title_norm += word[0].upper() + word[1:] + ' '
+    return title_norm.strip()
+
+
+def make_slug(title: 'str') -> str:
+    return title.lower().replace(' ', '-')
+
+
+def format_report_line(movie: dict) -> str:
+    return (f'"{normalize_title(movie['title'])}"'
+    f' ({movie['year']}) — {movie['rating']}/10, ' 
+    f'{duration_in_hours(movie['duration_min'])}, '
+    f'жанры: {', '.join(sorted(movie['genres']))}')
