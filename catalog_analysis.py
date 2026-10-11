@@ -191,3 +191,20 @@ for movie in iter_high_rated(movies):
     print(format_report_line(movie))
 
 sum(m["duration_min"] for m in movies if m["rating"] > 7)
+
+def build_report(movies):
+
+    print(f'\nОТЧЁТ ПО КАТАЛОГУ \n'
+            f'Средний рейтинг: {average_rating(movies)}\n'
+            f'Средний возраст фильмов: {catalog_age_stats(movies)[2]} лет')
+    print(f'\nТоп-3 фильма:')
+    for movie in sorted(movies, key = lambda x: x['rating'], reverse=True):
+        for m in top_n_by_rating(movies):
+            if m[0] in movie['title']:
+                print(format_report_line(movie))
+    print(f'\nФильмов по жанрам:')
+    for genre in count_by_genre(movies):
+        print(f'{genre} — {count_by_genre(movies)[genre]}')
+    print(f'\nВсе жанры каталога: {", ".join(all_genres(movies))}')
+
+build_report(movies)
