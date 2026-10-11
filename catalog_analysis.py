@@ -160,3 +160,23 @@ title_rating = list(zip(title, rating))
 title_rating_dict = {title : rating for title, rating in title_rating}
 
 
+def all_genres(movies: list) -> set:
+    movie_genres = set()
+    for movie in movies:
+        movie_genres.update(movie['genres'])
+    return movie_genres
+
+
+def common_actors(movie1, movie2):
+    return set(movie1['actors']) & set(movie2['actors'])
+
+
+def genres_only_in_one(movies_a: list, movies_b: list) -> set:
+    movies_a_genres = set()
+    movies_b_genres = set()
+    for movie in movies_a:
+        movies_a_genres.update((movie['genres']))
+    for movie in movies_b:
+        movies_b_genres.update((movie['genres']))
+    return movies_a_genres - movies_b_genres
+
