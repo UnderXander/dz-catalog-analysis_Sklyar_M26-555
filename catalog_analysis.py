@@ -180,3 +180,14 @@ def genres_only_in_one(movies_a: list, movies_b: list) -> set:
         movies_b_genres.update((movie['genres']))
     return movies_a_genres - movies_b_genres
 
+
+def iter_high_rated(movies: list, min_rating: float = 8.0):
+    for m in movies:
+        if m['rating'] > min_rating:
+            yield m
+
+
+for movie in iter_high_rated(movies):
+    print(format_report_line(movie))
+
+sum(m["duration_min"] for m in movies if m["rating"] > 7)
